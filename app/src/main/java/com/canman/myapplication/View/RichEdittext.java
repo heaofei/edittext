@@ -207,11 +207,11 @@ public class RichEdittext extends EditText implements View.OnKeyListener {
         end = start + richStr.length();
         return (pos - start < end - pos) ? start : end;
     }
-    public void insertRichItem(String richKeyword, IRichParser richItem) {
+     public int insertRichItem(String richKeyword, IRichParser richItem) {
 
         final IRichParser item = richItem;
         if (null == item) {
-            return;
+            return -1;
         }
         int currentPos = getSelectionStart();
 
@@ -235,6 +235,10 @@ public class RichEdittext extends EditText implements View.OnKeyListener {
         String richText = item.getRichText(richKeyword);
         setText(startStr + richText + endStr);
         setSelection(currentPos + richText.length());
+
+
+        final String temp = toString().substring(0, currentPos);
+        return  RichParserManager.getManager().getLastRichposition(temp);
     }
 
     @Override
